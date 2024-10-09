@@ -87,7 +87,7 @@ To get started with the Call Centre Web Application, follow these steps:
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/Kampfer-Programmierer/wahlen-dialer/tree/main#:~:text=Last%20commit%20date-,LICENSE.txt,-Create%20LICENSE.txt) file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE.txt) file for details.
 
 ## Contributing
 
