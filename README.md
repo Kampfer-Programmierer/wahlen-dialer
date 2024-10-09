@@ -30,8 +30,8 @@ To get started with the Call Centre Web Application, follow these steps:
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/your-username/call-centre-app.git
-   cd call-centre-app
+   git clone https://github.com/Kampfer-Programmierer/wahlen-dialer.git
+   cd wahlen-dialer
    ```
 
 2. **Install dependencies**:
