@@ -2,7 +2,7 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { dbConnect } from '~/app/lib/mongoose';
-import { User, IUser } from '~/app/models/User'; // Import User and IUser
+import { Agent, type IAgent } from '~/app/models/Agent';
 
 export const authOptions = {
   providers: [
@@ -15,12 +15,12 @@ export const authOptions = {
       async authorize(credentials) {
         await dbConnect(); // Ensure database is connected
 
-        // Find user by email
-        const user: IUser | null = await User.findOne({ email: credentials?.email });
-        if (user && await user.comparePassword(credentials?.password)) {
-          return { id: user._id, email: user.email }; // Return user object
+        // Find agent by email
+        const agent: IAgent | null = await Agent.findOne({ email: credentials?.email });
+        if (agent && await agent.comparePassword(credentials?.password)) {
+          return { id: agent._id, email: agent.email }; // Return agent object
         }
-        // If user is not found or password doesn't match
+        // If agent is not found or password doesn't match
         return null;
       },
     }),

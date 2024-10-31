@@ -3,11 +3,11 @@ import {
   type DefaultSession,
   type NextAuthOptions,
 } from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials"; // Import CredentialsProvider
+import CredentialsProvider from "next-auth/providers/credentials";
 
 import { env } from "~/env";
 import { dbConnect } from "~/app/lib/mongoose";
-import { User } from "~/app/models/User"; // Correct import for User model
+import { Agent } from "~/app/models/Agent";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -17,10 +17,10 @@ import { User } from "~/app/models/User"; // Correct import for User model
  */
 declare module "next-auth" {
   interface Session extends DefaultSession {
-    user: {
+    agent: {
       id: string;
       // ...other properties
-    } & DefaultSession["user"];
+    } & DefaultSession["agent"];
   }
 }
 
@@ -40,14 +40,14 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials) {
         await dbConnect(); // Ensure database is connected
 
-        // Find user by email
-        const user = await User.findOne({ email: credentials?.email });
+        // Find agent by email
+        const agent = await Agent.findOne({ email: credentials?.email });
         
-        if (user && await user.comparePassword(credentials?.password)) {
-          return { id: user._id, email: user.email }; // Return user object
+        if (agent && await agent.comparePassword(credentials?.password)) {
+          return { id: agent._id, email: agent.email }; // Return agent object
         }
         
-        // If user is not found or password doesn't match
+        // If agent is not found or password doesn't match
         return null;
       },
     }),
