@@ -1,11 +1,11 @@
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "~/server/api/trpc";
-import { Agent } from "~/app/models/Agent"; // Import your Mongoose Agent model
+import Agents from "~/app/models/Agents"; // Import your Mongoose Agent model
 
 export const agentsRouter = createTRPCRouter({
     // Get all agents
     getAll: publicProcedure.query(async () => {
-        return await Agent.find(); // Retrieves all agents from the database
+        return await Agents.find(); // Retrieves all agents from the database
     }),
 
     // Create a new agent
@@ -19,7 +19,7 @@ export const agentsRouter = createTRPCRouter({
             status: z.enum(['active', 'inactive', 'on-leave', 'on-call']).optional(), // Status is optional and must be one of the defined enums
         }))
         .mutation(async ({ ctx, input }) => {
-            const agent = new Agent({
+            const agent = new Agents({
                 name: input.name,
                 employeeId: input.employeeId,
                 phoneNumber: input.phoneNumber,
@@ -34,7 +34,7 @@ export const agentsRouter = createTRPCRouter({
     getById: publicProcedure
         .input(z.object({ id: z.string() }))
         .query(async ({ ctx, input }) => {
-            return await Agent.findById(input.id); // Retrieves agent by ID
+            return await Agents.findById(input.id); // Retrieves agent by ID
         }),
 
     // Update an agent
@@ -57,13 +57,13 @@ export const agentsRouter = createTRPCRouter({
             if (input.roleId) updateData.role = input.roleId;
             if (input.status) updateData.status = input.status;
 
-            return await Agent.findByIdAndUpdate(input.id, updateData, { new: true }); // Updates the agent and returns the updated document
+            return await Agents.findByIdAndUpdate(input.id, updateData, { new: true }); // Updates the agent and returns the updated document
         }),
 
     // Delete an agent
     deleteAgent: protectedProcedure
         .input(z.object({ id: z.string() }))
         .mutation(async ({ ctx, input }) => {
-            return await Agent.findByIdAndDelete(input.id); // Deletes the agent from the database
+            return await Agents.findByIdAndDelete(input.id); // Deletes the agent from the database
         }),
 });

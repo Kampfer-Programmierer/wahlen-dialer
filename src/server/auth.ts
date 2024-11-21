@@ -7,7 +7,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 
 import { env } from "~/env";
 import { dbConnect } from "~/app/lib/mongoose";
-import { Agent } from "~/app/models/Agent";
+import  Agents  from "~/app/models/Agents";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -20,7 +20,7 @@ declare module "next-auth" {
     agent: {
       id: string;
       // ...other properties
-    } & DefaultSession["agent"];
+    } & DefaultSession["agents"];
   }
 }
 
@@ -41,7 +41,7 @@ export const authOptions: NextAuthOptions = {
         await dbConnect(); // Ensure database is connected
 
         // Find agent by email
-        const agent = await Agent.findOne({ email: credentials?.email });
+        const agent = await Agents.findOne({ email: credentials?.email });
         
         if (agent && await agent.comparePassword(credentials?.password)) {
           return { id: agent._id, email: agent.email }; // Return agent object
