@@ -26,12 +26,12 @@ export default function RootLayout({
             {/* Conditionally render the sidebar only if not on login page */}
             {!isLoginPage && <Sidebar />}
             <div
-              className={`relative flex flex-1 flex-col ${!isLoginPage ? "lg:ml-72.5" : ""}`}
+              className={`relative flex min-h-screen dark:bg-slate-600 flex-1 flex-col ${!isLoginPage ? "lg:ml-72.5" : ""}`}
             >
               {/* Conditionally render the header only if not on login page */}
               {!isLoginPage && <Header />}
               <main
-                className={`mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10 ${isLoginPage ? "w-full" : ""}`}
+                className={`mx-auto  max-w-screen-2xl p-4 md:p-6 2xl:p-10 ${isLoginPage ? "w-full" : ""}`}
               >
                 {children}
               </main>
