@@ -31,7 +31,7 @@ export default function RootLayout({
               {/* Conditionally render the header only if not on login page */}
               {!isLoginPage && <Header />}
               <main
-                className={`mx-auto  max-w-screen-2xl p-4 md:p-6 2xl:p-10 ${isLoginPage ? "w-full" : ""}`}
+                className={`mx-auto w-[80vw] p-4 md:p-6 2xl:p-10 ${isLoginPage ? "w-full" : ""}`}
               >
                 {children}
               </main>

@@ -39,9 +39,6 @@ const AddAgentPage = () => {
       if (!response.ok) {
         throw new Error(`Error: ${response.status}`); 
       }
-  
-      const data = await response.json(); 
-      console.log('Success:', data);
       setFormData({
         name: "",
         email: "",

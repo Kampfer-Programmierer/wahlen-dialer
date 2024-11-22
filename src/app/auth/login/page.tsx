@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { setCookie } from "~/app/utils/helpers";
 
 export default function LoginPage() {
-  const [rememberMe, setRememberMe] = useState(false);
 
   useEffect(() => {
     // Disable scrolling
@@ -15,6 +15,49 @@ export default function LoginPage() {
       document.body.style.overflow = "auto";
     };
   }, []);
+
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      console.log("RESPONSE", response)
+      if (!response.ok) {
+        const errorData = await response.json();
+        setErrorMessage(errorData.message || "Login failed!");
+        return;
+      }
+
+      const data = await response.json();
+
+      // Handle success (e.g., redirect, save token)
+      console.log("DATA", data)
+      setErrorMessage("");
+
+      setCookie("token", data.token);
+      window.location.href = "/dashboard"; // Redirect to dashboard
+    } catch (error) {
+      console.error("Error during login:", error);
+      setErrorMessage("An error occurred. Please try again.");
+    }
+  };
 
   return (
     <div className="flex min-h-screen items-center justify-center overflow-hidden bg-gray-900 p-4">
@@ -28,9 +71,9 @@ export default function LoginPage() {
       {/* Login form */}
       <div className="mb-17 z-10 h-[75vh] w-full max-w-5xl overflow-hidden rounded-2xl bg-gray-800/50 shadow-xl backdrop-blur-sm transition-all duration-300 hover:bg-gray-800/60 hover:shadow-2xl">
         <div className="border-b border-gray-700 bg-gray-800/50 px-6 py-4">
-          <h3 className="text-center text-5xl font-bold text-white">Sign In</h3>
+          <h3 className="text-center text-5xl font-bold text-white">Log In</h3>
         </div>
-        <form className="p-25">
+        <form className="p-25" onSubmit={handleSubmit}>
           <div className="space-y-6">
             <div className="space-y-2">
               <label
@@ -41,8 +84,10 @@ export default function LoginPage() {
               </label>
               <input
                 type="email"
-                id="email"
+                name="email"
                 placeholder="Enter your email address"
+                value={formData.email}
+                onChange={handleChange}
                 className="w-full rounded-md border border-gray-600 bg-gray-700 px-4 py-2 text-white placeholder-gray-400 transition-all duration-300 ease-in-out hover:bg-gray-600 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500"
                 required
               />
@@ -57,15 +102,17 @@ export default function LoginPage() {
               </label>
               <input
                 type="password"
-                id="password"
+                name="password"
                 placeholder="Enter password"
+                value={formData.password}
+                onChange={handleChange}
                 className="w-full rounded-md border border-gray-600 bg-gray-700 px-4 py-2 text-white placeholder-gray-400 transition-all duration-300 ease-in-out hover:bg-gray-600 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500"
                 required
               />
             </div>
 
             <div className="flex items-center justify-between">
-              <label
+              {/* <label
                 htmlFor="remember-me"
                 className="group flex cursor-pointer items-center"
               >
@@ -79,7 +126,7 @@ export default function LoginPage() {
                 <span className="ml-2 text-sm text-gray-300 transition-colors duration-200 ease-in-out group-hover:text-purple-300">
                   Remember me
                 </span>
-              </label>
+              </label> */}
 
               <Link
                 href="#"
@@ -88,12 +135,13 @@ export default function LoginPage() {
                 Forgot password?
               </Link>
             </div>
+            {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
             <div className="flex items-center justify-center">
               <button
                 type="submit"
                 className="w-[20vw] transform rounded-md bg-purple-600 px-4 py-2 text-sm font-medium text-white transition-all duration-300 ease-in-out hover:scale-105 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-800 active:scale-95"
               >
-                Sign In
+                Log In
               </button>
             </div>
           </div>

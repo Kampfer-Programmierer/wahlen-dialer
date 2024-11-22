@@ -1,37 +1,59 @@
-import mongoose, { type Document, Schema } from 'mongoose';
+import mongoose, { type Document, Schema } from "mongoose";
 
 interface ICampaign extends Document {
   name: string;
   description?: string;
   assignedAgents: mongoose.Types.ObjectId[];
-  status: 'active' | 'inactive';
+  status: "active" | "inactive" | "paused" | "completed"; // Added "paused" and "completed"
+  startDate: Date;
+  endDate: Date;
+  callScript: string;
   createdAt: Date;
+  updatedAt: Date;
 }
 
-const campaignSchema = new Schema<ICampaign>({
-  name: {
-    type: String,
-    required: true,
+const campaignSchema = new Schema<ICampaign>(
+  {
+    name: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+      default: "",
+    },
+    assignedAgents: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Agent",
+        default: [],
+      },
+    ],
+    status: {
+      type: String,
+      enum: ["active", "inactive", "paused", "completed"], // Added "paused" and "completed"
+      default: "active",
+    },
+    startDate: {
+      type: Date,
+      required: true,
+    },
+    endDate: {
+      type: Date,
+      required: true,
+    },
+    callScript: {
+      type: String,
+      default: "",
+    },
   },
-  description: {
-    type: String,
-    default: '',
+  {
+    timestamps: true, // Automatically adds createdAt and updatedAt fields
   },
-  assignedAgents: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Agent',
-  }],
-  status: {
-    type: String,
-    enum: ['active', 'inactive'],
-    default: 'active',
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-});
+);
 
-const Campaign = mongoose.models.Campaign ?? mongoose.model<ICampaign>('Campaign', campaignSchema);
+const Campaign =
+  mongoose.models.Campaign ??
+  mongoose.model<ICampaign>("Campaign", campaignSchema);
 
 export default Campaign;
