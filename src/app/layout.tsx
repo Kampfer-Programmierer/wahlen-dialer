@@ -14,25 +14,23 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   const pathname = usePathname();
-
-  // Determine if we are on the login page
   const isLoginPage = pathname === "/auth/login";
 
   return (
     <html lang="en" className={`${GeistSans.variable}`}>
       <body>
         <TRPCReactProvider>
-          <div className="flex">
-            {/* Conditionally render the sidebar only if not on login page */}
+          <div className="flex h-auto w-full">
             {!isLoginPage && <Sidebar />}
             <div
-              className={`relative flex min-h-screen dark:bg-slate-600 flex-1 flex-col ${!isLoginPage ? "lg:ml-72.5" : ""}`}
+              className={`relative flex min-h-screen flex-1 flex-col dark:bg-slate-600 ${
+                !isLoginPage 
+                  ? "transition-all duration-300 lg:ml-20 " 
+                  : "w-full"
+              }`}
             >
-              {/* Conditionally render the header only if not on login page */}
               {!isLoginPage && <Header />}
-              <main
-                className={`mx-auto w-[80vw] p-4 md:p-6 2xl:p-10 ${isLoginPage ? "w-full" : ""}`}
-              >
+              <main className="flex-1 w-full p-4 md:p-6 2xl:p-5 ">
                 {children}
               </main>
             </div>
