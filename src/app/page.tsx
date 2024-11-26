@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 import { getServerAuthSession } from "~/server/auth";
 import { api, HydrateClient } from "~/trpc/server";
@@ -58,6 +59,7 @@ export default async function Home() {
 
         </div>
       </main>
+      <ReactQueryDevtools initialIsOpen={false} />
     </HydrateClient>
   );
 }
