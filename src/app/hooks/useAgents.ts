@@ -13,7 +13,7 @@ interface AgentsResponse {
 }
 
 // Fetch paginated agents
-export const fetchAgents = async (page: number, limit: number): Promise<AgentsResponse> => {
+export const fetchAgents = async ({ page, limit }: { page: number; limit: number }): Promise<AgentsResponse> => {
   const response = await fetch(`/api/agents?page=${page}&limit=${limit}`);
   if (!response.ok) {
     throw new Error('Failed to fetch agents data');
@@ -34,61 +34,43 @@ const addAgent = async (newAgent: Omit<Agent, 'id'>): Promise<Agent> => {
   return response.json();
 };
 
-// Update an existing agent
-const updateAgent = async (updatedAgent: Agent): Promise<Agent> => {
-  const response = await fetch(`/api/agents/${updatedAgent.id}`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(updatedAgent),
+const deleteAgent = async (id: string): Promise<void> => {
+  const response = await fetch(`/api/agents/${id}`, {
+    method: 'DELETE',
   });
-  if (!response.ok) {
-    throw new Error('Failed to update agent');
-  }
-  return response.json();
-};
-
-// Delete an agent
-const deleteAgent = async (id: string): Promise<{ id: string }> => {
-  const response = await fetch(`/api/agents/${id}`, { method: 'DELETE' });
   if (!response.ok) {
     throw new Error('Failed to delete agent');
   }
-  return response.json();
 };
 
 export const useAgents = (page: number, limit: number) => {
   const queryClient = useQueryClient();
 
-  // Query: Fetch agents
-  const query = useQuery(['agents', page], () => fetchAgents(page, limit), {
+  // Fetch agents
+  const query = useQuery({
+    queryKey: ['agents', page], // Use array format for the query key
+    queryFn: () => fetchAgents({ page, limit }), // Use an object for queryFn arguments
     keepPreviousData: true,
   });
 
-  // Mutation: Add agent
-  const addMutation = useMutation(addAgent, {
+  // Add agent mutation
+  const addMutation = useMutation({
+    mutationFn: addAgent,
     onSuccess: () => {
-      queryClient.invalidateQueries(['agents']); // Refetch agents
+      queryClient.invalidateQueries({ queryKey: ['agents'] }); // Invalidate agents query
     },
   });
 
-  // Mutation: Update agent
-  const updateMutation = useMutation(updateAgent, {
+  const deleteMutation = useMutation({
+    mutationFn: deleteAgent,
     onSuccess: () => {
-      queryClient.invalidateQueries(['agents']); // Refetch agents
-    },
-  });
-
-  // Mutation: Delete agent
-  const deleteMutation = useMutation(deleteAgent, {
-    onSuccess: () => {
-      queryClient.invalidateQueries(['agents']); // Refetch agents
+      queryClient.invalidateQueries({ queryKey: ['agents'] }); // Refresh the agents query
     },
   });
 
   return {
     query, // Query data, loading, error
     addMutation, // Add agent mutation
-    updateMutation, // Update agent mutation
-    deleteMutation, // Delete agent mutation
+    deleteMutation
   };
 };

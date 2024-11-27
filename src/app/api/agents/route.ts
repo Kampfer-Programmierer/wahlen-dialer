@@ -13,7 +13,7 @@ export async function GET(req: Request) {
 
     const skip = (page - 1) * limit;
 
-    const users = await User.find({}).skip(skip).limit(limit);
+    const agents = await User.find({}).skip(skip).limit(limit);
     const totalUsers = await User.countDocuments();
 
     const totalPages = Math.ceil(totalUsers / limit);
@@ -22,7 +22,7 @@ export async function GET(req: Request) {
       {
         success: true,
         data: {
-          users,
+          agents,
           currentPage: page,
           totalPages,
           totalUsers,
