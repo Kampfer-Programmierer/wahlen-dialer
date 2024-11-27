@@ -59,7 +59,7 @@ export default async function Home() {
 
         </div>
       </main>
-      <ReactQueryDevtools initialIsOpen={false} />
+      <ReactQueryDevtools />
     </HydrateClient>
   );
 }

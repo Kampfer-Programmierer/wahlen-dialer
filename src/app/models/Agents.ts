@@ -30,8 +30,10 @@ const AgentsSchema = new Schema<IAgents>(
     },
     password: {
       type: String,
-      required: [true, 'Password is required'],
-    },
+      required: function (this: IAgents) {
+        return this.isNew; // Only required for new documents
+      },
+    },    
     role: {
       type: String,
       enum: ['admin', 'agent', 'supervisor'],
