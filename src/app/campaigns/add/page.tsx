@@ -1,10 +1,17 @@
 "use client";
-import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Select from "react-select";
 
 const AddCampaignPage = () => {
+
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const id = searchParams.get("id");
+
+
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -20,6 +27,34 @@ const AddCampaignPage = () => {
     { value: "talha", label: "Talha" },
     { value: "faraz", label: "Faraz" },
   ];
+
+  useEffect(() => {
+    if (id) {
+      // Fetch agent details by ID and populate form
+      const fetchCampaign = async () => {
+        try {
+          const response = await fetch(`/api/campaigns/${id}`);
+          if (response.ok) {
+            const { data } = await response.json();
+            setFormData({
+              name: data.name,
+              description: data.description,
+              startDate: data.startDate,
+              endDate: data.endDate,
+              status: data.status,
+              callScript: data.callScript
+            });
+          } else {
+            console.error("Failed to fetch campaign data");
+          }
+        } catch (error) {
+          console.error("Error fetching campaign:", error);
+        }
+      };
+
+      fetchCampaign();
+    }
+  }, [id]);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -41,12 +76,17 @@ const AddCampaignPage = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await fetch("/api/campaigns", {
-        method: "POST",
+      const method = id ? "PUT" : "POST";
+      const url = id ? `/api/campaigns/${id}` : "/api/campaigns";
+
+      const payload = { ...formData };
+
+      const response = await fetch(url, {
+        method,
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(payload),
       });
 
       if (!response.ok) {
@@ -58,9 +98,10 @@ const AddCampaignPage = () => {
         startDate: "",
         endDate: "",
         callScript: "",
-        assignedAgents: [],
+        // assignedAgents: [],
         status: "",
       });
+      router.push("/campaigns"); // Redirect back to the listing page
     } catch (error: unknown) {
       console.error("Error submitting form:", error);
     }

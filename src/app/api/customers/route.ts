@@ -2,42 +2,34 @@ import { NextResponse } from "next/server";
 import { dbConnect } from "~/server/db";
 import Customer from "~/app/models/Customer";
 
-export async function GET() {
-  await dbConnect();
-  try {
-    const customers = await Customer.find({});
-    return NextResponse.json(
-      { success: true, data: customers },
-      { status: 200 },
-    );
-  } catch (error: any) {
-    return NextResponse.json(
-      { success: false, error: error.message },
-      { status: 400 },
-    );
-  }
-}
-
-export async function POST(req: Request) {
+export async function GET(req: Request) {
   await dbConnect();
 
   try {
-    const body = await req.json();
-    if (body.email === null || body.email === "") {
-      delete body.email;
-    }
+    const { searchParams } = new URL(req.url);
+    const page = parseInt(searchParams.get('page') || '1'); // Default to page 1
+    const limit = parseInt(searchParams.get('limit') || '10'); // Default to 10 items per page
 
-    // Save the user to the database
-    const customer = await Customer.create(body);
+    const skip = (page - 1) * limit;
+
+    const customers = await Customer.find({}).skip(skip).limit(limit);
+    const totalCustomers = await Customer.countDocuments();
+
+    const totalPages = Math.ceil(totalCustomers / limit);
 
     return NextResponse.json(
-      { success: true, data: customer },
-      { status: 201 },
+      {
+        success: true,
+        data: {
+          customers,
+          currentPage: page,
+          totalPages,
+          totalCustomers,
+        },
+      },
+      { status: 200 }
     );
   } catch (error: any) {
-    return NextResponse.json(
-      { success: false, error: error.message },
-      { status: 400 },
-    );
+    return NextResponse.json({ success: false, error: error.message }, { status: 400 });
   }
 }
