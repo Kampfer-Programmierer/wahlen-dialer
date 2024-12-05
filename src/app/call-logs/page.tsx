@@ -1,7 +1,6 @@
 import { QueryClient, dehydrate } from '@tanstack/react-query'
 import { HydrationBoundary } from '@tanstack/react-query'
 import {fetchCustomers} from '../hooks/useCustomers'
-import CustomerTable from "../_components/customer/customerTable";
 import CallLogTable from '../_components/callLogs/CallLogTable';
 
 

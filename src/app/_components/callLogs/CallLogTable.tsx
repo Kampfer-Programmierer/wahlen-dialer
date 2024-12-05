@@ -1,9 +1,6 @@
 "use client";
-import React, { useState } from "react";
-import { useRouter } from "next/navigation";
-
+import React from "react";
 const CallLogTable = ({ callLogs }) => {
-  const router = useRouter();
 
   return (
     <div className="w-full p-4">
@@ -11,7 +8,7 @@ const CallLogTable = ({ callLogs }) => {
         <table className="w-full overflow-hidden rounded-lg bg-white shadow-md dark:bg-boxdark">
           <thead className="border-b bg-gray-200 dark:border-strokedark dark:bg-boxdark">
             <tr>
-            <th className="text-md px-6 py-3 text-left font-medium uppercase tracking-wider text-gray-500 dark:text-white">
+            {/* <th className="text-md px-6 py-3 text-left font-medium uppercase tracking-wider text-gray-500 dark:text-white">
                 Customer Id
               </th>
               <th className="text-md px-6 py-3 text-left font-medium uppercase tracking-wider text-gray-500 dark:text-white">
@@ -19,7 +16,7 @@ const CallLogTable = ({ callLogs }) => {
               </th>
               <th className="text-md px-6 py-3 text-left font-medium uppercase tracking-wider text-gray-500 dark:text-white">
                 Campaign Id
-              </th>
+              </th> */}
               <th className="text-md px-6 py-3 text-left font-medium uppercase tracking-wider text-gray-500 dark:text-white">
                 Start Time
               </th>
@@ -47,7 +44,7 @@ const CallLogTable = ({ callLogs }) => {
                 key={index}
                 className="transition-colors duration-200 dark:hover:bg-slate-600"
               >
-                <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">
+                {/* <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">
                   {log.customerId}
                 </td>
                 <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">
@@ -55,7 +52,7 @@ const CallLogTable = ({ callLogs }) => {
                 </td>
                 <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">
                   {log.campaignId}
-                </td>
+                </td> */}
                 <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">
                   {log.startTime}
                 </td>

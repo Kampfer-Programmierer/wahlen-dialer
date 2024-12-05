@@ -1,74 +1,69 @@
-import React, { ReactNode } from "react";
+import { ListOrdered, PhoneIncoming, PhoneOff, UserCheck, Users2 } from "lucide-react";
+import React from "react";
 
 interface CardDataStatsProps {
   title: string;
   total: string;
-  rate: string;
-  levelUp?: boolean;
-  levelDown?: boolean;
-  children: ReactNode;
+  onClick: () => void;
+  isActive?: boolean;
 }
 
 const CardDataStats: React.FC<CardDataStatsProps> = ({
   title,
   total,
-  rate,
-  levelUp,
-  levelDown,
-  children,
+  onClick,
+  isActive = false,
 }) => {
+  const getCardColors = () => {
+    switch (title) {
+      case "Calls Missed":
+        return isActive ? "bg-red-400" : "bg-red-300";
+      case "Calls Ringing":
+        return isActive ? "bg-yellow-400" : "bg-yellow-300";
+      case "Calls in queue":
+        return isActive ? "bg-blue-400" : "bg-blue-300";
+      case "Active Agents":
+        return isActive ? "bg-green-400" : "bg-green-300";
+      case "Total Agents":
+        return isActive ? "bg-purple-400" : "bg-purple-300";
+      default:
+        return isActive ? "bg-gray-400" : "bg-gray-300";
+    }
+  };
+
+  const getIcon = () => {
+    switch (title) {
+      case "Calls Missed":
+        return <PhoneOff className="text-black dark:text-white" />;
+      case "Calls Ringing":
+        return <PhoneIncoming className="text-black dark:text-white" />;
+      case "Calls in queue":
+        return <ListOrdered className="text-black dark:text-white" />;
+      case "Active Agents":
+        return <UserCheck className="text-black dark:text-white" />;
+      case "Total Agents":
+        return <Users2 className="text-black dark:text-white" />;
+      default:
+        return null;
+    }
+  };
+
   return (
-    <div className="rounded-sm border border-stroke bg-white px-7.5 py-6 shadow-default dark:border-strokedark dark:bg-boxdark">
-      <div className="flex h-11.5 w-11.5 items-center justify-center rounded-full bg-meta-2 dark:bg-meta-4">
-        {children}
+    <div
+      className={`flex flex-col items-center rounded-lg border border-stroke dark:border-none px-6.5 py-5 shadow-default transition-all duration-300 hover:cursor-pointer ${getCardColors()} text-black`}
+      onClick={onClick}
+    >
+      <div className="flex h-11.5 w-11.5 items-center border-meta-4  justify-center rounded-full bg-meta-2 dark:bg-meta-4">
+      {getIcon()}
       </div>
 
       <div className="mt-4 flex items-end justify-between">
         <div>
-          <h4 className="text-title-md font-bold text-black dark:text-white">
+          <h4 className="text-center text-title-md font-bold text-black ">
             {total}
           </h4>
-          <span className="text-sm font-medium">{title}</span>
+          <span className="whitespace-nowrap text-sm font-medium">{title}</span>
         </div>
-
-        <span
-          className={`flex items-center gap-1 text-sm font-medium ${
-            levelUp && "text-meta-3"
-          } ${levelDown && "text-meta-5"} `}
-        >
-          {rate}
-
-          {levelUp && (
-            <svg
-              className="fill-meta-3"
-              width="10"
-              height="11"
-              viewBox="0 0 10 11"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M4.35716 2.47737L0.908974 5.82987L5.0443e-07 4.94612L5 0.0848689L10 4.94612L9.09103 5.82987L5.64284 2.47737L5.64284 10.0849L4.35716 10.0849L4.35716 2.47737Z"
-                fill=""
-              />
-            </svg>
-          )}
-          {levelDown && (
-            <svg
-              className="fill-meta-5"
-              width="10"
-              height="11"
-              viewBox="0 0 10 11"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M5.64284 7.69237L9.09102 4.33987L10 5.22362L5 10.0849L-8.98488e-07 5.22362L0.908973 4.33987L4.35716 7.69237L4.35716 0.0848701L5.64284 0.0848704L5.64284 7.69237Z"
-                fill=""
-              />
-            </svg>
-          )}
-        </span>
       </div>
     </div>
   );
