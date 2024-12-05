@@ -10,54 +10,23 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
 
 const options: ApexOptions = {
   legend: {
-    show: false,
+    show: true,
     position: "top",
     horizontalAlign: "left",
   },
   colors: ["#3C50E0", "#80CAEE"],
   chart: {
     fontFamily: "Satoshi, sans-serif",
-    height: 335,
+    height: 400,
     type: "area",
-    dropShadow: {
-      enabled: true,
-      color: "#623CEA14",
-      top: 10,
-      blur: 4,
-      left: 0,
-      opacity: 0.1,
-    },
-
     toolbar: {
       show: false,
     },
   },
-  responsive: [
-    {
-      breakpoint: 1024,
-      options: {
-        chart: {
-          height: 300,
-        },
-      },
-    },
-    {
-      breakpoint: 1366,
-      options: {
-        chart: {
-          height: 350,
-        },
-      },
-    },
-  ],
   stroke: {
     width: [2, 2],
-    curve: "straight",
+    curve: "smooth",
   },
-  // labels: {
-  //   show: false,
-  //   position: "top",
-  // },
   grid: {
     xaxis: {
       lines: {
@@ -79,45 +48,44 @@ const options: ApexOptions = {
     strokeColors: ["#3056D3", "#80CAEE"],
     strokeWidth: 3,
     strokeOpacity: 0.9,
-    strokeDashArray: 0,
-    fillOpacity: 1,
-    discrete: [],
-    hover: {
-      size: undefined,
-      sizeOffset: 5,
-    },
   },
   xaxis: {
     type: "category",
     categories: [
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-    ],
+      "9 AM",
+      "10 AM",
+      "11 AM",
+      "12 PM",
+      "1 PM",
+      "2 PM",
+      "3 PM",
+      "4 PM",
+      "5 PM",
+      "6 PM",
+    ], // Categories match the data points
     axisBorder: {
-      show: false,
+      show: true, // Ensure the x-axis border is visible
     },
     axisTicks: {
-      show: false,
+      show: true, // Ensure ticks align with data points
     },
   },
   yaxis: {
     title: {
+      text: "Number of Calls",
       style: {
-        fontSize: "0px",
+        fontSize: "12px",
+        fontWeight: "bold",
       },
     },
     min: 0,
-    max: 100,
+  },
+  tooltip: {
+    shared: true,
+    intersect: false,
+    y: {
+      formatter: (val: number) => `${val} calls`,
+    },
   },
 };
 
@@ -130,16 +98,15 @@ interface ChartOneState {
 
 const ChartOne: React.FC = () => {
   const series = [
-      {
-        name: "Product One",
-        data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30, 45],
-      },
-
-      {
-        name: "Product Two",
-        data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39, 51],
-      },
-    ]
+  {
+    name: "Total Calls",
+    data: [50, 60, 45, 70, 90, 80, 100, 85, 60, 75], // Matches the x-axis categories
+  },
+  {
+    name: "Successful Calls",
+    data: [30, 40, 30, 50, 70, 60, 80, 65, 40, 55], // Matches the x-axis categories
+  },
+];
 
   return (
     <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 pt-7.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-8">
@@ -150,33 +117,12 @@ const ChartOne: React.FC = () => {
               <span className="block h-2.5 w-full max-w-2.5 rounded-full bg-primary"></span>
             </span>
             <div className="w-full">
-              <p className="font-semibold text-primary">Total Revenue</p>
-              <p className="text-sm font-medium">12.04.2022 - 12.05.2022</p>
-            </div>
-          </div>
-          <div className="flex min-w-47.5">
-            <span className="mr-2 mt-1 flex h-4 w-full max-w-4 items-center justify-center rounded-full border border-secondary">
-              <span className="block h-2.5 w-full max-w-2.5 rounded-full bg-secondary"></span>
-            </span>
-            <div className="w-full">
-              <p className="font-semibold text-secondary">Total Sales</p>
-              <p className="text-sm font-medium">12.04.2022 - 12.05.2022</p>
+              <p className="font-semibold text-primary">Performance</p>
+              <p className="text-sm font-medium">24 Outbound Calls Today</p>
             </div>
           </div>
         </div>
-        <div className="flex w-full max-w-45 justify-end">
-          <div className="inline-flex items-center rounded-md bg-whiter p-1.5 dark:bg-meta-4">
-            <button className="rounded bg-white px-3 py-1 text-xs font-medium text-black shadow-card hover:bg-white hover:shadow-card dark:bg-boxdark dark:text-white dark:hover:bg-boxdark">
-              Day
-            </button>
-            <button className="rounded px-3 py-1 text-xs font-medium text-black hover:bg-white hover:shadow-card dark:text-white dark:hover:bg-boxdark">
-              Week
-            </button>
-            <button className="rounded px-3 py-1 text-xs font-medium text-black hover:bg-white hover:shadow-card dark:text-white dark:hover:bg-boxdark">
-              Month
-            </button>
-          </div>
-        </div>
+        
       </div>
 
       <div>
