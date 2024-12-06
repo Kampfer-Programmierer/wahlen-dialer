@@ -8,7 +8,6 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
 });
 
-// Chart options
 const options: ApexOptions = {
   colors: ["#3C50E0", "#009900", "#e60000"],
   chart: {
@@ -58,7 +57,7 @@ const ChartTwo: React.FC = () => {
   // State for dynamic series data
   const [series, setSeries] = useState([
     { name: "Total Calls", data: [] },
-    { name: "Success Calls", data: [] },
+    { name: "Successful Calls", data: [] },
     { name: "Failed Calls", data: [] },
   ]);
 
@@ -77,13 +76,13 @@ const ChartTwo: React.FC = () => {
     const callData = generateCallData();
     setSeries([
       { name: "Total Calls", data: callData.totalCalls },
-      { name: "Success Calls", data: callData.successCalls },
+      { name: "Successful Calls", data: callData.successCalls },
       { name: "Failed Calls", data: callData.failedCalls },
     ]);
   }, []);
 
   return (
-    <div className="border-stroke p-7.5 shadow-default dark:border-strokedark dark:bg-boxdark col-span-12 rounded-sm border bg-white xl:col-span-4">
+    <div className="col-span-12 rounded-sm border border-stroke bg-white p-7.5 shadow-default dark:border-strokedark dark:bg-boxdark xl:col-span-4">
       <div className="mb-4 justify-between gap-4 sm:flex">
         <div>
           <h4 className="text-xl font-semibold text-black dark:text-white">
