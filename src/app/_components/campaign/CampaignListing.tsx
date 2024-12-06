@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useCampaigns } from "~/app/hooks/useCampaigns";
+import CampaignAccordion from "./CampaignAccordion";
 
 const getStatusClasses = (status) => {
   switch (status) {
@@ -36,7 +37,7 @@ const CampaignListing = ({ page: initialPage, limit }) => {
   if (isLoading) return <div>Loading camapigns...</div>;
   if (isError) return <div>Error fetching campaigns</div>;
 
-  const handleUpdateCampaign = ( id ) => {
+  const handleUpdateCampaign = (id) => {
     router.push(`/campaigns/add?id=${id}`);
   };
 
@@ -61,6 +62,7 @@ const CampaignListing = ({ page: initialPage, limit }) => {
           Add Campaign
         </Link>
       </div>
+      <CampaignAccordion />
       <div className="overflow-x-auto">
         <table className="w-full overflow-hidden rounded-lg bg-white shadow-md dark:bg-boxdark">
           <thead className="border-b bg-gray-200 dark:border-strokedark dark:bg-boxdark">
@@ -76,6 +78,9 @@ const CampaignListing = ({ page: initialPage, limit }) => {
               </th>
               <th className="text-md px-6 py-3 text-left font-medium uppercase tracking-wider text-gray-500 dark:text-white">
                 Status
+              </th>
+              <th className="text-md px-10 py-3 text-right  font-medium uppercase tracking-wider text-gray-500 dark:text-white">
+                Actions
               </th>
             </tr>
           </thead>
