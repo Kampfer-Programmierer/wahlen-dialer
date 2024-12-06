@@ -73,6 +73,7 @@ const ChartTwo: React.FC = () => {
 
   // Load data dynamically for the current week
   useEffect(() => {
+    console.log("on");
     const callData = generateCallData();
     setSeries([
       { name: "Total Calls", data: callData.totalCalls },
