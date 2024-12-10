@@ -21,11 +21,12 @@ const CampaignAccordion: React.FC = () => {
 
   const toggleAccordion = () => {
     setIsExpanded((prev) => !prev);
+    if (isExpanded) setSelectedStatus(null);
   };
 
   const singleCampaign: Campaign = {
     id: 1,
-    title: 'Campaign A',
+    title: 'Campaign ',
   };
 
 
@@ -60,11 +61,7 @@ const CampaignAccordion: React.FC = () => {
     },
   ];
 
-  const campaignData = {
-    Active: ["Campaign 1", "Campaign 2", "Campaign 3"],
-    Pending: ["Campaign 4", "Campaign 5"],
-    Complete: ["Campaign 6", "Campaign 7", "Campaign 8", "Campaign 9"],
-  };
+
 
   return (
     <div className="w-full   mb-3   mx-auto mt-8">
@@ -96,8 +93,12 @@ const CampaignAccordion: React.FC = () => {
               <div
                 key={status.id}
                 onClick={() => setSelectedStatus(status.title)}
-                className={`flex flex-col  items-center w-[120px] h-[150px] justify-center p-6 rounded-lg text-white shadow-md cursor-pointer   ${!selectedStatus ? 'opacity-100 blur-0 ' : status.title === selectedStatus ? "opacity-100 blur-0 " : "opacity-30 blur-sm hover:opacity-100 hover:blur-0"
-                  }  ${status.bgColor}`}
+                className={`flex flex-col items-center w-[120px] h-[150px] justify-center p-6 rounded-lg text-white shadow-md cursor-pointer transition-transform duration-300 ease-in-out transform ${!selectedStatus
+                  ? 'opacity-100 blur-0'
+                  : status.title === selectedStatus
+                    ? 'opacity-100 blur-0'
+                    : 'opacity-30 blur-sm hover:opacity-100 hover:blur-0'
+                  } ${status.bgColor} hover:scale-105`}
               >
                 <status.icon size={36} className="mb-2" />
                 <span className="text-3xl font-extrabold">{status.count}</span>
