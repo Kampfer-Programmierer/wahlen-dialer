@@ -1,125 +1,129 @@
 import Image from "next/image";
 
-export type BRAND = {
-  logo: string;
-  name: string;
-  visitors: number;
-  revenues: string;
-  sales: number;
-  conversion: number;
+export type QUEUED_CALL = {
+  callerName: string;
+  phoneNumber: string;
+  waitTime: string;
+  queuePriority: string;
+  status: string;
 };
 
-const brandData: BRAND[] = [
+const queuedCallData: QUEUED_CALL[] = [
   {
-    logo: "/images/brand/brand-01.svg",
-    name: "Google",
-    visitors: 3.5,
-    revenues: "5,768",
-    sales: 590,
-    conversion: 4.8,
+    callerName: "John Doe",
+    phoneNumber: "+91-8264799780",
+    waitTime: "02:15",
+    queuePriority: "High",
+    status: "Waiting",
   },
   {
-    logo: "/images/brand/brand-02.svg",
-    name: "Twitter",
-    visitors: 2.2,
-    revenues: "4,635",
-    sales: 467,
-    conversion: 4.3,
+    callerName: "Jane Smith",
+    phoneNumber: "+91-2632703084",
+    waitTime: "01:50",
+    queuePriority: "Medium",
+    status: "In Progress",
   },
   {
-    logo: "/images/brand/brand-03.svg",
-    name: "Github",
-    visitors: 2.1,
-    revenues: "4,290",
-    sales: 420,
-    conversion: 3.7,
+    callerName: "Michael Johnson",
+    phoneNumber: "+91-2662218614",
+    waitTime: "03:30",
+    queuePriority: "Low",
+    status: "Waiting",
   },
   {
-    logo: "/images/brand/brand-04.svg",
-    name: "Vimeo",
-    visitors: 1.5,
-    revenues: "3,580",
-    sales: 389,
-    conversion: 2.5,
+    callerName: "Emily Davis",
+    phoneNumber: "+91-0638360959",
+    waitTime: "01:20",
+    queuePriority: "High",
+    status: "In Progress",
   },
   {
-    logo: "/images/brand/brand-05.svg",
-    name: "Facebook",
-    visitors: 3.5,
-    revenues: "6,768",
-    sales: 390,
-    conversion: 4.2,
+    callerName: "Sarah Wilson",
+    phoneNumber: "+91-2531611862",
+    waitTime: "02:45",
+    queuePriority: "Medium",
+    status: "Waiting",
   },
 ];
 
 const CallsInQueue = () => {
   return (
-    <div className="border-stroke shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 rounded-sm border bg-white px-5 pb-2.5 pt-6 xl:pb-1">
+    <div className="rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
       <h4 className="mb-6 text-xl font-semibold text-black dark:text-white">
         Calls in Queue
       </h4>
 
       <div className="flex flex-col">
-        <div className="bg-gray-2 dark:bg-meta-4 grid grid-cols-3 rounded-sm sm:grid-cols-5">
+        {/* Table Header */}
+        <div className="grid grid-cols-3 rounded-sm bg-gray-2 dark:bg-meta-4 sm:grid-cols-5">
           <div className="p-2.5 xl:p-5">
-            <h5 className="xsm:text-base text-sm font-medium uppercase">
-              Source
+            <h5 className="text-sm font-medium uppercase xsm:text-base">
+              Caller Name
+            </h5>
+          </div>
+          <div className="p-2.5 xl:p-5">
+            <h5 className="text-sm font-medium uppercase xsm:text-base">
+              Phone Number
             </h5>
           </div>
           <div className="p-2.5 text-center xl:p-5">
-            <h5 className="xsm:text-base text-sm font-medium uppercase">
-              Visitors
-            </h5>
-          </div>
-          <div className="p-2.5 text-center xl:p-5">
-            <h5 className="xsm:text-base text-sm font-medium uppercase">
-              Revenues
+            <h5 className="text-sm font-medium uppercase xsm:text-base">
+              Wait Time
             </h5>
           </div>
           <div className="hidden p-2.5 text-center sm:block xl:p-5">
-            <h5 className="xsm:text-base text-sm font-medium uppercase">
-              Sales
+            <h5 className="text-sm font-medium uppercase xsm:text-base">
+              Priority
             </h5>
           </div>
           <div className="hidden p-2.5 text-center sm:block xl:p-5">
-            <h5 className="xsm:text-base text-sm font-medium uppercase">
-              Conversion
+            <h5 className="text-sm font-medium uppercase xsm:text-base">
+              Status
             </h5>
           </div>
         </div>
 
-        {brandData.map((brand, key) => (
+        {/* Table Rows */}
+        {queuedCallData.map((call, key) => (
           <div
             className={`grid grid-cols-3 sm:grid-cols-5 ${
-              key === brandData.length - 1
+              key === queuedCallData.length - 1
                 ? ""
-                : "border-stroke dark:border-strokedark border-b"
+                : "border-b border-stroke dark:border-strokedark"
             }`}
             key={key}
           >
+            {/* Caller Info */}
             <div className="flex items-center gap-3 p-2.5 xl:p-5">
-              <div className="flex-shrink-0">
-                <Image src={brand.logo} alt="Brand" width={48} height={48} />
-              </div>
-              <p className="hidden text-black sm:block dark:text-white">
-                {brand.name}
+              <p className="text-black dark:text-white">{call.callerName}</p>
+            </div>
+
+            {/* Phone Number */}
+            <div className="flex items-center justify-center p-2.5 xl:p-5">
+              <p className="text-black dark:text-white">{call.phoneNumber}</p>
+            </div>
+
+            {/* Wait Time */}
+            <div className="flex items-center justify-center p-2.5 xl:p-5">
+              <p className="text-meta-3">{call.waitTime}</p>
+            </div>
+
+            {/* Priority */}
+            <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
+              <p
+                className={`text-${call.queuePriority === "High" ? "red-500" : call.queuePriority === "Medium" ? "yellow-500" : "green-500"}`}
+              >
+                {call.queuePriority}
               </p>
             </div>
 
-            <div className="flex items-center justify-center p-2.5 xl:p-5">
-              <p className="text-black dark:text-white">{brand.visitors}K</p>
-            </div>
-
-            <div className="flex items-center justify-center p-2.5 xl:p-5">
-              <p className="text-meta-3">${brand.revenues}</p>
-            </div>
-
+            {/* Status */}
             <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-              <p className="text-black dark:text-white">{brand.sales}</p>
-            </div>
-
-            <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-              <p className="text-meta-5">{brand.conversion}%</p>
+              <p
+                className={`text-${call.status === "In Progress" ? "blue-500" : "gray-500"}`}
+              >
+                {call.status}
+              </p>
             </div>
           </div>
         ))}

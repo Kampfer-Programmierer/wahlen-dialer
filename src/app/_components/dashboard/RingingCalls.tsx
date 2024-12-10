@@ -1,125 +1,124 @@
 import Image from "next/image";
 
-export type BRAND = {
-  logo: string;
-  name: string;
-  visitors: number;
-  revenues: string;
-  sales: number;
-  conversion: number;
+export type RINGING_CALL = {
+  number: string; // Phone number associated with the call.
+
+  ringingDuration: string; // Average ringing time.
+  callType: string; // Type of call (e.g., Inbound, Outbound).
+  priority: string; // Priority of the call.
+  status: string; // Current status (e.g., Active, Waiting).
 };
 
-const brandData: BRAND[] = [
+const ringingCallData: RINGING_CALL[] = [
   {
-    logo: "/images/brand/brand-01.svg",
-    name: "Google",
-    visitors: 3.5,
-    revenues: "5,768",
-    sales: 590,
-    conversion: 4.8,
+    number: "+91-8264799780",
+    ringingDuration: "00:45",
+    callType: "Inbound",
+    priority: "High",
+    status: "Active",
   },
   {
-    logo: "/images/brand/brand-02.svg",
-    name: "Twitter",
-    visitors: 2.2,
-    revenues: "4,635",
-    sales: 467,
-    conversion: 4.3,
+    number: "+91-2632703084",
+    ringingDuration: "01:20",
+    callType: "Outbound",
+    priority: "Medium",
+    status: "Waiting",
   },
   {
-    logo: "/images/brand/brand-03.svg",
-    name: "Github",
-    visitors: 2.1,
-    revenues: "4,290",
-    sales: 420,
-    conversion: 3.7,
+    number: "+91-2662218614",
+    ringingDuration: "00:35",
+    callType: "Inbound",
+    priority: "Low",
+    status: "Active",
   },
   {
-    logo: "/images/brand/brand-04.svg",
-    name: "Vimeo",
-    visitors: 1.5,
-    revenues: "3,580",
-    sales: 389,
-    conversion: 2.5,
+    number: "+91-0638360959",
+    ringingDuration: "01:05",
+    callType: "Outbound",
+    priority: "High",
+    status: "Waiting",
   },
   {
-    logo: "/images/brand/brand-05.svg",
-    name: "Facebook",
-    visitors: 3.5,
-    revenues: "6,768",
-    sales: 390,
-    conversion: 4.2,
+    number: "+91-2531611862",
+    ringingDuration: "00:50",
+    callType: "Inbound",
+    priority: "Medium",
+    status: "Active",
   },
 ];
 
 const RingingCalls = () => {
   return (
-    <div className="border-stroke shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 rounded-sm border bg-white px-5 pb-2.5 pt-6 xl:pb-1">
+    <div className="rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
       <h4 className="mb-6 text-xl font-semibold text-black dark:text-white">
-        Calls Ringing
+        Ringing Calls Overview
       </h4>
 
       <div className="flex flex-col">
-        <div className="bg-gray-2 dark:bg-meta-4 grid grid-cols-3 rounded-sm sm:grid-cols-5">
+        {/* Table Header */}
+        <div className="grid grid-cols-3 rounded-sm bg-gray-2 dark:bg-meta-4 sm:grid-cols-5">
           <div className="p-2.5 xl:p-5">
-            <h5 className="xsm:text-base text-sm font-medium uppercase">
-              Source
+            <h5 className="text-sm font-medium uppercase xsm:text-base">
+              Number
             </h5>
           </div>
           <div className="p-2.5 text-center xl:p-5">
-            <h5 className="xsm:text-base text-sm font-medium uppercase">
-              Visitors
-            </h5>
-          </div>
-          <div className="p-2.5 text-center xl:p-5">
-            <h5 className="xsm:text-base text-sm font-medium uppercase">
-              Revenues
+            <h5 className="text-sm font-medium uppercase xsm:text-base">
+              Duration
             </h5>
           </div>
           <div className="hidden p-2.5 text-center sm:block xl:p-5">
-            <h5 className="xsm:text-base text-sm font-medium uppercase">
-              Sales
+            <h5 className="text-sm font-medium uppercase xsm:text-base">
+              Call Type
             </h5>
           </div>
           <div className="hidden p-2.5 text-center sm:block xl:p-5">
-            <h5 className="xsm:text-base text-sm font-medium uppercase">
-              Conversion
+            <h5 className="text-sm font-medium uppercase xsm:text-base">
+              Priority
+            </h5>
+          </div>
+          <div className="hidden p-2.5 text-center sm:block xl:p-5">
+            <h5 className="text-sm font-medium uppercase xsm:text-base">
+              Status
             </h5>
           </div>
         </div>
 
-        {brandData.map((brand, key) => (
+        {/* Table Rows */}
+        {ringingCallData.map((call, index) => (
           <div
             className={`grid grid-cols-3 sm:grid-cols-5 ${
-              key === brandData.length - 1
+              index === ringingCallData.length - 1
                 ? ""
-                : "border-stroke dark:border-strokedark border-b"
+                : "border-b border-stroke dark:border-strokedark"
             }`}
-            key={key}
+            key={index}
           >
-            <div className="flex items-center gap-3 p-2.5 xl:p-5">
-              <div className="flex-shrink-0">
-                <Image src={brand.logo} alt="Brand" width={48} height={48} />
-              </div>
-              <p className="hidden text-black sm:block dark:text-white">
-                {brand.name}
+            {/* Phone Number */}
+            <div className="flex items-center p-2.5 xl:p-5">
+              <p className="text-black dark:text-white">{call.number}</p>
+            </div>
+
+            {/* Ringing Duration */}
+            <div className="flex items-center justify-center p-2.5 xl:p-5">
+              <p className="text-black dark:text-white">
+                {call.ringingDuration}
               </p>
             </div>
 
-            <div className="flex items-center justify-center p-2.5 xl:p-5">
-              <p className="text-black dark:text-white">{brand.visitors}K</p>
-            </div>
-
-            <div className="flex items-center justify-center p-2.5 xl:p-5">
-              <p className="text-meta-3">${brand.revenues}</p>
-            </div>
-
+            {/* Call Type */}
             <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-              <p className="text-black dark:text-white">{brand.sales}</p>
+              <p className="text-meta-3">{call.callType}</p>
             </div>
 
+            {/* Priority */}
             <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-              <p className="text-meta-5">{brand.conversion}%</p>
+              <p className="text-meta-5">{call.priority}</p>
+            </div>
+
+            {/* Status */}
+            <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
+              <p className="text-meta-5">{call.status}</p>
             </div>
           </div>
         ))}
