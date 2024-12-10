@@ -56,7 +56,7 @@ const brandData: BRAND[] = [
 const TableFour: React.FC = () => {
   return (
     <div className="col-span-12 xl:col-span-7">
-      <div className="border-stroke shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 rounded-sm border bg-white px-5 pb-2.5 pt-6 xl:pb-1">
+      <div className="rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
         <div className="mb-6 flex justify-between">
           <div>
             <h4 className="text-title-sm2 font-bold text-black dark:text-white">
@@ -67,24 +67,24 @@ const TableFour: React.FC = () => {
         </div>
 
         <div className="flex flex-col">
-          <div className="bg-gray-2 dark:bg-meta-4 grid grid-cols-3 rounded-sm sm:grid-cols-4">
+          <div className="grid grid-cols-3 rounded-sm bg-gray-2 dark:bg-meta-4 sm:grid-cols-4">
             <div className="p-2.5 xl:p-4">
-              <h5 className="xsm:text-base text-sm font-medium uppercase">
+              <h5 className="text-sm font-medium uppercase xsm:text-base">
                 Source
               </h5>
             </div>
             <div className="p-2.5 text-center xl:p-4">
-              <h5 className="xsm:text-base text-sm font-medium uppercase">
+              <h5 className="text-sm font-medium uppercase xsm:text-base">
                 Visitors
               </h5>
             </div>
             <div className="p-2.5 text-center xl:p-4">
-              <h5 className="xsm:text-base text-sm font-medium uppercase">
+              <h5 className="text-sm font-medium uppercase xsm:text-base">
                 Revenues
               </h5>
             </div>
             <div className="hidden p-2.5 text-center sm:block xl:p-4">
-              <h5 className="xsm:text-base text-sm font-medium uppercase">
+              <h5 className="text-sm font-medium uppercase xsm:text-base">
                 Conversion
               </h5>
             </div>
@@ -95,7 +95,7 @@ const TableFour: React.FC = () => {
               className={`grid grid-cols-3 sm:grid-cols-4 ${
                 key === brandData.length - 1
                   ? ""
-                  : "border-stroke dark:border-strokedark border-b"
+                  : "border-b border-stroke dark:border-strokedark"
               }`}
               key={key}
             >
@@ -103,7 +103,7 @@ const TableFour: React.FC = () => {
                 <div className="h-9 w-full max-w-9 flex-shrink-0">
                   <Image src={brand.logo} width={60} height={50} alt="Brand" />
                 </div>
-                <p className="hidden font-medium text-black sm:block dark:text-white">
+                <p className="hidden font-medium text-black dark:text-white sm:block">
                   {brand.name}
                 </p>
               </div>
@@ -115,11 +115,11 @@ const TableFour: React.FC = () => {
               </div>
 
               <div className="flex items-center justify-center p-2.5 xl:p-5">
-                <p className="text-meta-3 font-medium">${brand.revenues}</p>
+                <p className="font-medium text-meta-3">${brand.revenues}</p>
               </div>
 
               <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-                <p className="text-meta-5 font-medium">{brand.conversion}%</p>
+                <p className="font-medium text-meta-5">{brand.conversion}%</p>
               </div>
             </div>
           ))}
