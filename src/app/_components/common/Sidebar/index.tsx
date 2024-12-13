@@ -195,7 +195,49 @@ const menuGroups = [
         ),
         label: "Dialer",
         route: "/dialer",
-      },
+      }, {
+        icon: (
+          <svg
+            fill="#FFFFFF"
+            height="22"
+            width="22"
+            viewBox="0 0 24 24"
+            role="presentation"
+          >
+            {/* Chart container */}
+            <path
+              d="M21 20H4a1 1 0 01-1-1V5a1 1 0 011-1h17a1 1 0 011 1v14a1 1 0 01-1 1zM5 18h15V6H5v12z"
+              fill="currentColor"
+              fillRule="evenodd"
+            />
+            {/* Ideal burndown line */}
+            <path
+              d="M7 8L19 16"
+              stroke="currentColor"
+              strokeWidth="1"
+              strokeDasharray="2,2"
+              fill="none"
+              strokeLinecap="round"
+            />
+            {/* Actual burndown line */}
+            <path
+              d="M7 8l4 2 3 4 5 2"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            {/* Data points */}
+            <circle cx="7" cy="8" r="1.5" fill="currentColor" />
+            <circle cx="11" cy="10" r="1.5" fill="currentColor" />
+            <circle cx="14" cy="14" r="1.5" fill="currentColor" />
+            <circle cx="19" cy="16" r="1.5" fill="currentColor" />
+          </svg>
+        ),
+        label: "Report",
+        route: "/report",
+      }
     ],
   },
 ];
@@ -279,11 +321,10 @@ const Sidebar = () => {
                       <Link
                         href={item.route}
                         onClick={handleMenuItemClick}
-                        className={`flex items-center rounded-lg px-2 py-2 transition-colors ${
-                          pathname === item.route
-                            ? "bg-gray-700/50 text-white"
-                            : "text-gray-300 hover:bg-gray-700/30 hover:text-white"
-                        } `}
+                        className={`flex items-center rounded-lg px-2 py-2 transition-colors ${pathname === item.route
+                          ? "bg-gray-700/50 text-white"
+                          : "text-gray-300 hover:bg-gray-700/30 hover:text-white"
+                          } `}
                       >
                         <div className="flex h-10 w-10 items-center justify-center">
                           {item.icon}
