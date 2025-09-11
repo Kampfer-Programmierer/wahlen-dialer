@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { Phone, User, Pause, Forward } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Phone, User, Pause, Forward, Play } from "lucide-react";
 
 interface DialerTabsProps {
   onTabChange: (tab: "dialer" | "current-call") => void;
@@ -13,6 +13,7 @@ interface DialerTabsProps {
   onEndCall: () => void;
   onOutcomeChange: (outcome: string) => void;
   onNotesChange: (notes: string) => void;
+  timer: string
 }
 
 export function DialerTabs({
@@ -21,11 +22,21 @@ export function DialerTabs({
   onEndCall,
   onOutcomeChange,
   onNotesChange,
+  timer,
 }: DialerTabsProps) {
   const [activeTab, setActiveTab] = useState<"dialer" | "current-call">(
     "current-call",
   );
   const [notes, setNotes] = useState("");
+  const [isHold, setIsHold] = useState(false);
+
+  const handleToggle = () => {
+    setIsHold((prev) => !prev);
+  };
+
+  useEffect(() => {
+    setIsHold(false);
+  }, [currentCall]);
 
   const handleTabChange = (tab: "dialer" | "current-call") => {
     setActiveTab(tab);
@@ -36,6 +47,14 @@ export function DialerTabs({
     setNotes(e.target.value);
     onNotesChange(e.target.value);
   };
+
+  function formatTime(seconds) {
+    const hrs = String(Math.floor(seconds / 3600)).padStart(2, "0");
+    const mins = String(Math.floor((seconds % 3600) / 60)).padStart(2, "0");
+    const secs = String(seconds % 60).padStart(2, "0");
+    return `${hrs}:${mins}:${secs}`;
+  }
+  
 
   return (
     <div className="flex flex-col dark:bg-boxdark">
@@ -89,7 +108,7 @@ export function DialerTabs({
           <div className="space-y-4">
             <div className="rounded-md border p-4 bg-white text-center dark:border-0 dark:bg-strokedark">
               <div className="font-mono text-3xl  dark:text-gray-300">
-                {currentCall.duration}
+                {formatTime(timer)}
               </div>
               <div className="text-sm text-gray-500 dark:text-white">
                 Current Call Duration
@@ -106,7 +125,7 @@ export function DialerTabs({
                   <span className="text-black-2 dark:text-gray-300">
                     Company
                   </span>
-                  <span className="dark:text-white text-black-2">{currentCall.company}</span>
+                  <span className="dark:text-white text-black-2">{currentCall.status}</span>
                 </div>
                 <div className="flex justify-between py-1">
                   <span className="text-black-2 dark:text-gray-300">
@@ -117,9 +136,9 @@ export function DialerTabs({
               </div>
             </div>
             <div className="flex gap-x-3">
-              <button className="flex bg-white hover:bg-gray-200 w-full justify-center gap-x-1 rounded-md border p-2 text-center dark:hover:bg-black dark:bg-strokedark dark:text-white">
-                <Pause />
-                Hold
+              <button onClick={handleToggle} className="flex bg-white hover:bg-gray-200 w-full justify-center gap-x-1 rounded-md border p-2 text-center dark:hover:bg-black dark:bg-strokedark dark:text-white">
+              {isHold ? <Play /> : <Pause />}
+              {isHold ? "Continue" : "Hold"}
               </button>
               <button className="flex bg-white hover:bg-gray-200 w-full justify-center gap-x-1 rounded-md border p-2 text-center dark:hover:bg-black dark:bg-strokedark dark:text-white">
                 <Forward />

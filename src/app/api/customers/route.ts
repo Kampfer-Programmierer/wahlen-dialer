@@ -7,13 +7,17 @@ export async function GET(req: Request) {
 
   try {
     const { searchParams } = new URL(req.url);
-    const page = parseInt(searchParams.get('page') || '1'); // Default to page 1
-    const limit = parseInt(searchParams.get('limit') || '10'); // Default to 10 items per page
+    const page = parseInt(searchParams.get("page") || "1"); // Default to page 1
+    const limit = parseInt(searchParams.get("limit") || "10"); // Default to 10 items per page
+    const status = searchParams.get("status"); // Optional status filter
 
     const skip = (page - 1) * limit;
 
-    const customers = await Customer.find({}).skip(skip).limit(limit);
-    const totalCustomers = await Customer.countDocuments();
+    // Build the query conditionally based on the presence of 'status'
+    const query = status ? { status } : {};
+
+    const customers = await Customer.find(query).skip(skip).limit(limit);
+    const totalCustomers = await Customer.countDocuments(query); // Count based on the same query
 
     const totalPages = Math.ceil(totalCustomers / limit);
 
