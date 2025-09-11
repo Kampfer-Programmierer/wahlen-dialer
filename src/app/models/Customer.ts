@@ -8,6 +8,7 @@ interface ICustomer extends Document {
   location?: string; // Optional geographic location
   priority?: string; // Optional call priority level
   status: string; // Status of the call
+  retryTime: number;
   notes: string; // Additional notes for the customer
   assignedCampaigns: mongoose.Types.ObjectId[]; // Array of campaign IDs this customer is assigned to
   createdAt: Date; // Timestamp for record creation
@@ -25,9 +26,12 @@ const customerSchema = new Schema<ICustomer>(
     status: {
       type: String,
       required: true,
-      enum: ["failed", "completed", "pending"],
+      enum: ["failed", "completed", "pending", "picked", "retry"],
       default: "pending",
     }, // Status of the call
+    retryTime: {
+      type: Number,
+    },
     notes: { type: String, default: "" }, // Additional notes for the customer
     assignedCampaigns: [
       {

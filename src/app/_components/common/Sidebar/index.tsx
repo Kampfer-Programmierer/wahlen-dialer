@@ -4,10 +4,6 @@ import React, { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import SidebarItem from "~/app/_components/common/Sidebar/SidebarItem";
-import ClickOutside from "~/app/_components/common/ClickOutside";
-import useLocalStorage from "~/app//hooks/useLocalStorage";
-
 const menuGroups = [
   {
     name: "MENU",
